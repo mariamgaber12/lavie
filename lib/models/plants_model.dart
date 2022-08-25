@@ -1,14 +1,13 @@
 
-
-class Plant {
+class PlantModel {
   String? type = "";
   String? message = "";
   List<Data>? data = [];
 
-  Plant({this.type, this.message, this.data});
+  PlantModel({this.type, this.message, this.data});
 
 
-  Plant.fromJson(dynamic json) {
+  PlantModel.fromJson(dynamic json) {
     type = json['type'];
     message = json['message'];
     if (json['data'] != null) {
@@ -28,7 +27,6 @@ class Plant {
     }
     return map;
   }
-
 }
 
 class Data {

@@ -41,25 +41,25 @@ class Data {
     if (json['plants'] != null) {
       plants = [];
       json['plants'].forEach((v) {
-        plants!.add(Plant.fromJson(v));
+        plants!.add(PlantModel.fromJson(v));
       });
     }
     if (json['seeds'] != null) {
       seeds = [];
       json['seeds'].forEach((v) {
-        seeds!.add(Seed.fromJson(v));
+        seeds!.add(SeedModel.fromJson(v));
       });
     }
     if (json['tools'] != null) {
       tools = [];
       json['tools'].forEach((v) {
-        tools!.add(Tool.fromJson(v));
+        tools!.add(ToolModel.fromJson(v));
       });
     }
   }
-  List<Plant>? plants=[];
-  List<Seed>? seeds=[];
-  List<Tool>? tools=[];
+  List<PlantModel>? plants=[];
+  List<SeedModel>? seeds=[];
+  List<ToolModel>? tools=[];
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

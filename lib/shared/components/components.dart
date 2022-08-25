@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:la_vie/shared/components/constant.dart';
 
 void navigateTo(context, widget) => Navigator.push(
       context,
@@ -76,6 +77,7 @@ Widget defaulttaskFormField({
   required String hint,
   bool isClickable = true,
   bool isPass = false,
+  Widget? suffixIcon,
   double right = 45.0,
   double left = 45.0,
   double width = double.infinity,
@@ -94,6 +96,7 @@ Widget defaulttaskFormField({
           enabled: isClickable,
           validator: validate,
           decoration: InputDecoration(
+            suffixIcon: suffixIcon!,
             labelText: hint,
             labelStyle: const TextStyle(
                 fontSize: 16,
@@ -192,7 +195,6 @@ Widget buildSigninWithOther({required onFPressed, required onGTap}) => Row(
 Widget buildSearch({
   required TextEditingController controller,
   onTap,
-  sufixIcon,
   Function? onSubmit,
   bool isClickable = true,
   bool isAuto = false,
@@ -226,9 +228,11 @@ Widget buildSearch({
                 Icons.search,
                 color: Colors.grey,
               ),
-              suffixIcon: sufixIcon,
               filled: true,
               fillColor: Colors.grey[100],
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey[100]!)),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: Colors.grey[100]!),
@@ -273,7 +277,7 @@ Widget buildPlantsCard(
                   //number of plants
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 1, bottom: 30, right: 1, left: 44),
+                        top: 1, bottom: 30, right: 1, left: 48),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.max,
@@ -311,14 +315,16 @@ Widget buildPlantsCard(
                       children: [
                         Text(
                           '$productName',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w700,
                             color: Colors.black,
-                            fontSize: 20,
+                            fontSize: 16,
                           ),
                         ),
                         Text(
-                          '$productPrice',
+                          '$productPrice EGP',
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
@@ -357,17 +363,18 @@ Widget buildPlantsCard(
             ),
           ),
           Positioned(
-            top: -55,
-            left: -11,
-            child: Image.asset(
-              '$productImage',
-              height: 150,
+            top: -5,
+            left: -22,
+            child: Image.network(
+              'https://lavie.orangedigitalcenteregypt.com$productImage',
+              height: 105,
               fit: BoxFit.fitHeight,
             ),
           ),
         ],
       ),
     );
+
 
 Widget buildNotifications() => Padding(
       padding: const EdgeInsets.all(10.0),
@@ -378,14 +385,13 @@ Widget buildNotifications() => Padding(
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: SizedBox(
-                height: 35,
-                width: 35,
+                height: 50,
+                width: 50,
                 child: CircleAvatar(
+                  radius: 35,
                   backgroundColor: Colors.green,
-                  child: Image.asset(
-                    'assets/images/leave.png',
-                    fit: BoxFit.cover,
-                  ),
+                  backgroundImage: AssetImage( 'assets/images/me2.jpg',),
+
                 ),
               ),
             ),
@@ -418,7 +424,7 @@ Widget buildNotifications() => Padding(
 
 Widget buildEmptyCartBody() {
   return SizedBox(
-    height: 600,
+    height: 555,
     width: double.infinity,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -459,115 +465,112 @@ Widget buildEmptyCartBody() {
   );
 }
 
-Widget buildCartBody({required double totalPrice, required cartIndex}) {
+Widget buildCartBody(
+    {required double totalPrice,
+    required price,
+    required onDpress,
+    required cartIndex,
+    required image,
+    required name}) {
   return SizedBox(
     height: 600,
-    child: ListView.separated(
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(5),
-            child: Card(
-              shadowColor: Colors.grey[100],
-              elevation: 5,
-              child: Row(
+    child: Padding(
+      padding: const EdgeInsets.all(5),
+      child: Card(
+        shadowColor: Colors.grey[100],
+        elevation: 5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Container(
+                height: 130,
+                width: 140,
+                color: Colors.transparent,
+                child: Image.asset('$image'),
+              ),
+            ),
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Container(
-                      height: 130,
-                      width: 140,
-                      color: Colors.transparent,
-                      child: Image.asset('assets/images/bplant.png'),
-                    ),
+                  Text(
+                    '$name',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700),
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Cactus plant',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '$price EGP',
+                    style: const TextStyle(
+                        color: Colors.green,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          '200 EGP',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.add,
-                                      color: Colors.green,
-                                      size: 20,
-                                    ),
-                                  ),
-                                  const Text(
-                                    '1',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 15),
-                                    child: IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.minimize,
-                                          color: Colors.green,
-                                          size: 20,
-                                        )),
-                                  ),
-                                ],
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.add,
+                                color: Colors.green,
+                                size: 20,
                               ),
                             ),
-                            const Spacer(),
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.delete,
-                                  size: 25,
-                                  color: Colors.green,
-                                )),
+                            Text(
+                              '$cartIndex',
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.minimize,
+                                    color: Colors.green,
+                                    size: 20,
+                                  )),
+                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                          onPressed: onDpress,
+                          icon: const Icon(
+                            Icons.delete,
+                            size: 25,
+                            color: Colors.green,
+                          )),
+                    ],
                   ),
                 ],
               ),
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(
-            height: 10,
-          );
-        },
-        itemCount: cartIndex),
+          ],
+        ),
+      ),
+    ),
   );
 }

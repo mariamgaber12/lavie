@@ -1,131 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:la_vie/cubit_lavie/exam_cubit.dart';
+import 'package:la_vie/layout/home_layout.dart';
+import 'package:la_vie/modules/exam/exam_result.dart';
+import 'package:la_vie/modules/home/home_page.dart';
 import 'package:la_vie/shared/components/components.dart';
 import '../../models/question_model.dart';
 
-/*
-/*
-class ExamPage extends StatelessWidget {
-  const ExamPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    //const List<String> values = [];
-    //String selectedValue = values.first;
-    //const selectedColor = Colors.green;
-    //const unselectedColor = Colors.green;
-    late int questnum = 0;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Course Exam',
-          style: textstyle.copyWith(color: Colors.black, fontSize: 16),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Question ',
-                style: textstyle.copyWith(color: Colors.black, fontSize: 18),
-              ),
-              Text(
-                '$questnum',
-                style: textstyle.copyWith(color: Colors.green, fontSize: 18),
-              ),
-
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 5, right: 5, top: 15, bottom: 15),
-            child: Text(
-              'What is the user experience?',
-              style: textstyle.copyWith(color: Colors.black, fontSize: 16),
-            ),
-          ),
-
-          ListTile(
-            tileColor: Colors.grey[200],
-            leading: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Text(
-                '""',
-                style: TextStyle(
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            title: const Text(
-             "",
-              style: TextStyle(
-                  color: Colors.teal,
-                  fontWeight: FontWeight.bold),
-            ),
-            //trailing: Radio,
-          ),
-        ],
-      ),
-    );
-  }
-
-*/
-/*
-
-  Widget buildRadios() => Column(
-        children: values.map(
-              (value) {
-            final selected = selectedValue == value;
-            final color = selected ? selectedColor : unselectedColor;
-
-            return RadioListTile<String>(
-                value: value,
-                groupValue: selectedValue,
-                title: Row(
-                  children: [
-                    Image(image: NetworkImage(value), height: 50, width: 50,),
-*//*
-
-*/
-/*
-              Text(
-                value,
-                style: TextStyle(color: color),
-              ),
-*//*
-*/
-/*
-
-
-                  ],
-                ),
-                activeColor: selectedColor,
-                onChanged: (value) {
-                  setState(() {
-                    selectedValue = value!;
-                  });
-                }
-            );
-          },
-        ).toList(),
-      );
-
-*//*
-
-
-}
-*/
-*/
 
 class Exam extends StatefulWidget {
   final List<QuestionModel> test;
 
-  Exam(this.test, {Key? key}) : super(key: key);
+  const Exam(this.test, {Key? key}) : super(key: key);
 
   @override
   State<Exam> createState() => _ExamState();
@@ -138,9 +23,9 @@ class _ExamState extends State<Exam> {
 
   @override
   Widget build(BuildContext context) {
-    //var examCubit = LaVieExamCubit.get(context);
     return Scaffold(
       appBar: AppBar(
+        leading: const Icon(Icons.arrow_back,color: Colors.white,size: 2,),
         title: const Text(
           'Exam',
         ),
@@ -155,6 +40,7 @@ class _ExamState extends State<Exam> {
           itemCount: widget.test.length,
           itemBuilder: (context, index) {
             return ListView(
+
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
@@ -207,8 +93,6 @@ class _ExamState extends State<Exam> {
                     child: ListTile(
                       autofocus: true,
                       selectedColor: Colors.green,
-
-                      onTap: () {},
                       trailing: Radio(
                         value: i,
                         groupValue: _value,
@@ -244,8 +128,8 @@ class _ExamState extends State<Exam> {
         width: 100,
           onPressed: () {
             _controller.nextPage(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.linear);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut);
             _value=null;
           },
           name: 'Next');
@@ -257,16 +141,21 @@ class _ExamState extends State<Exam> {
               onPressed: () {
                 _controller.previousPage(
                     duration: const Duration(milliseconds: 500),
-                    curve: Curves.linear);
+                    curve: Curves.easeInOut
+                );
                 _value=null;
               },
               name: 'back'),
           buildLoginButton(
             width: 100,
               onPressed: () {
-              _controller.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.linear);
+               if(index==2) {
+                 navigateTo(context, const ExamResult(points: 20,));
+              }else{
+                 _controller.nextPage(
+                     duration: const Duration(milliseconds: 300),
+                     curve: Curves.easeInOut);
+              }
               _value=null;
               },
               name: 'Next'),

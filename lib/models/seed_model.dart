@@ -1,11 +1,11 @@
-class Seed {
+class SeedModel {
   String? type = "";
   String? message = "";
   List<Data>? data = [];
 
-  Seed({this.type, this.message, this.data});
+  SeedModel({this.type, this.message, this.data});
 
-  Seed.fromJson(Map<String, dynamic> json) {
+  SeedModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     message = json['message'];
     if (json['data'] != null) {

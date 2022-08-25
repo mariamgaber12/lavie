@@ -1,15 +1,15 @@
-class Tool {
+class ToolModel {
 
   String? type="";
   String? message="";
   List<Data>? data=[];
 
-  Tool({
+  ToolModel({
        this.type,
        this.message,
        this.data,});
 
-  Tool.fromJson(dynamic json) {
+  ToolModel.fromJson(dynamic json) {
     type = json['type'];
     message = json['message'];
     if (json['data'] != null) {

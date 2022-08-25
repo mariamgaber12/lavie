@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/cubit_lavie/cubit.dart';
 import 'package:la_vie/cubit_lavie/state.dart';
 import 'package:la_vie/shared/components/components.dart';
+import '../../shared/components/constant.dart';
+import '../../shared/network/end_points.dart';
 import 'details_blog.dart';
 
 class BlogsPage extends StatefulWidget {
@@ -15,52 +17,68 @@ class BlogsPage extends StatefulWidget {
 class _BlogsPageState extends State<BlogsPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LaVieCubit, LaVieStates>(
-        builder: (context, state) {
-          var cubit = LaVieCubit.get(context);
-          return Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
+    return BlocProvider(
+      create: (BuildContext context) =>
+          LaVieCubit()..getProducts(PRODECTS, TOKEN!),
+      child: BlocConsumer<LaVieCubit, LaVieStates>(
+          builder: (context, state) {
+            var cubit = LaVieCubit.get(context);
+            return Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 2,
+                    color: Colors.white,
+                  ),
                 ),
+                title: const Text('Blogs'),
+                centerTitle: true,
               ),
-              title: const Text('Blogs'),
-              centerTitle: true,
-            ),
-            body: ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return buildBlogCart(
-                  blogTitle: '${cubit.blogs.data!.length}',
-                  blogImage: '${cubit.blogs.data!.length}',
-                  blogDesc:  '${cubit.blogs.data!.length}',
-                  blogTime:  '${cubit.blogs.data!.length}',
-                  onTap: () {
-                    setState(
-                      () => navigateTo(
-                        context,
-                        DetailsBlog(
-                            blogTitle: "${cubit.blogs.data!.length}",
-                            blogDesc: "${cubit.blogs.data!.length}",
-                            blogImage: "${cubit.blogs.data!.length}",
-                            blogTime: "${cubit.blogs.data!.length}"),
+              body: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                cubit.products.data!.isEmpty
+                    ? const Center(child: CircularProgressIndicator(color: Colors.green))
+                    : ListView.separated(
+                        itemBuilder: (BuildContext context, int index) {
+                          return buildBlogCart(
+                            blogTitle: 'Saguaro Cactus Blossom',
+                            blogImage:
+                                'https://lavie.orangedigitalcenteregypt.com/uploads/76cf5190-3183-44bc-8d52-093f1de5eb87.png',
+                            blogDesc:
+                                'Arizona achieved statehood',
+                            blogTime: '2 days ago',
+                            onTap: () {
+                              setState(
+                                () => navigateTo(
+                                  context,
+                                  const DetailsBlog(
+                                    blogTitle: 'Saguaro Cactus Blossom',
+                                    blogImage:
+                                    'https://lavie.orangedigitalcenteregypt.com/uploads/76cf5190-3183-44bc-8d52-093f1de5eb87.png',
+                                    blogDesc:
+                                    'Arizona achieved statehood',
+                                    blogTime: '2 days ago',
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(
+                            height: 10,
+                          );
+                        },
+                        itemCount: 7,
                       ),
-                    );
-                  },
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 10,
-                );
-              },
-              itemCount: 10,
-            ),
-          );
-        },
-        listener: (context, state) {});
+              ]),
+            );
+          },
+          listener: (context, state) {}),
+    );
   }
 
   Widget buildBlogCart(
@@ -85,7 +103,8 @@ class _BlogsPageState extends State<BlogsPage> {
                   height: 130,
                   width: 140,
                   color: Colors.transparent,
-                  child: Image.asset(blogImage),
+                  child: Image.network(
+                      "https://lavie.orangedigitalcenteregypt.com$blogImage"),
                 ),
               ),
               Expanded(

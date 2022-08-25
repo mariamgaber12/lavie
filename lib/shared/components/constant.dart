@@ -1,0 +1,3 @@
+String? TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTU2NjE1Yi1hYzIxLTQ0NzctYmU2NC0zODM2ODI0MjQ0OTEiLCJpYXQiOjE2NjEzODMwMTIsImV4cCI6MTY2MTU1NTgxMn0.48myRh-REy__pORUDOeBWwiVcsT2T8P5Z-6EPO_2xPc";
+
+String? baseUrl= "https://lavie.orangedigitalcenteregypt.com";

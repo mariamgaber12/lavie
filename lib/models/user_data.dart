@@ -1,7 +1,7 @@
 class UserData {
-  String? type;
-  String? message;
-  Data? data;
+  String? type="";
+  String? message="";
+  Data? data ;
 
   UserData({this.type, this.message, this.data});
 

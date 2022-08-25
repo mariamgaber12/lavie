@@ -26,14 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerLName = TextEditingController();
   TextEditingController controllerCPass = TextEditingController();
 
-  TextStyle textstyle = const TextStyle(
-    color: Colors.black,
-    fontWeight: FontWeight.w800,
-    fontSize: 20,
-    fontFamily: 'Uchen',
-    decorationStyle: TextDecorationStyle.solid,
-  );
 
+  bool _passwordVisible = false;
+  @override
+  void initState() {
+    _passwordVisible = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                                         right: 5,
                                         width: 150,
                                         hint: 'First Name',
+                                        suffixIcon: const Text('.',style: TextStyle(fontSize: 1,color: Colors.white),),
                                         type: TextInputType.name,
                                         controller: controllerFName,
                                         validate: (value) {
@@ -113,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                                         left: 5,
                                         width: 134,
                                         hint: 'Last Name',
+                                        suffixIcon: const Text('.',style: TextStyle(fontSize: 1,color: Colors.white),),
                                         type: TextInputType.name,
                                         controller: controllerLName,
                                         validate: (value) {
@@ -131,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                                     hint: 'Email',
                                     type: TextInputType.emailAddress,
                                     controller: controllerSEmail,
+                                    suffixIcon: const Text('.',style: TextStyle(fontSize: 1,color: Colors.white),),
                                     validate: (value) {
                                       if (value.isEmpty) {
                                         return 'Please enter your email.';
@@ -142,6 +143,17 @@ class _LoginPageState extends State<LoginPage> {
                                     hint: 'Password',
                                     type: TextInputType.visiblePassword,
                                     controller: controllerSPass,
+                                    isPass: !_passwordVisible,
+                                    suffixIcon: IconButton(
+                                      icon: Icon( _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off),
+                                      onPressed: (){
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                        });
+                                      },color: Colors.green,
+                                    ),
                                     validate: (value) {
                                       if (value.isEmpty) {
                                         return 'Please enter your password.';
@@ -156,6 +168,17 @@ class _LoginPageState extends State<LoginPage> {
                                     hint: 'Confirm Password',
                                     type: TextInputType.visiblePassword,
                                     controller: controllerCPass,
+                                    isPass: !_passwordVisible,
+                                    suffixIcon: IconButton(
+                                      icon: Icon( _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off),
+                                      onPressed: (){
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                        });
+                                      },color: Colors.green,
+                                    ),
                                     validate: (value) {
                                       if (value.isEmpty) {
                                         return 'Please confirm your password.';
@@ -172,7 +195,6 @@ class _LoginPageState extends State<LoginPage> {
                                         if (!formkeyS.currentState!.validate()) {
                                           return;
                                         }
-
                                         await cubit.signup(
                                           controllerFName.text.toString(),
                                           controllerLName.text.toString(),
@@ -180,12 +202,8 @@ class _LoginPageState extends State<LoginPage> {
                                           controllerSPass.text.toString(),
                                           context
                                         );
-                                        //debugPrint(controllerFName.text);
-                                        //debugPrint(controllerLName.text);
-                                        //debugPrint(controllerPass.text);
-                                        //debugPrint(controllerCPass.text);
                                       },
-                                      name: 'Sign up')
+                                      name: 'Sign up'),
                                 ],
                               ),
                             ),
@@ -216,6 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                                     hint: 'Email',
                                     type: TextInputType.emailAddress,
                                     controller: controllerLEmail,
+                                    suffixIcon: const Text('.',style: TextStyle(fontSize: 1,color: Colors.white),),
                                     validate: (value) {
                                       if (value.isEmpty) {
                                         return 'Please enter your email.';
@@ -228,6 +247,17 @@ class _LoginPageState extends State<LoginPage> {
                                     hint: 'Password',
                                     type: TextInputType.visiblePassword,
                                     controller: controllerLPass,
+                                    isPass: !_passwordVisible,
+                                    suffixIcon: IconButton(
+                                      icon: Icon( _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off),
+                                      onPressed: (){
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                        });
+                                      },color: Colors.green,
+                                    ),
                                     validate: (value) {
                                       if (value.isEmpty) {
                                         return 'Please enter your password.';

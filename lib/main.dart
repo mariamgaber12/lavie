@@ -6,18 +6,30 @@ import 'package:la_vie/login/login_page.dart';
 import 'package:la_vie/login/splash_page.dart';
 import 'package:la_vie/modules/discussions/discussion_forums.dart';
 import 'package:la_vie/shared/network/dio_helper.dart';
+import 'package:sqflite/sqflite.dart';
 import 'cubit_lavie/cubit.dart';
 
 void main() async {
   DioHelper.init();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
+}
+
+late Database database;
+
+@override
+void initState() async{
+  initState();
+
 }
 
 class _MyAppState extends State<MyApp> {

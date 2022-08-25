@@ -1,54 +1,78 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:la_vie/cubit_lavie/database/dbcubit.dart';
+import '../../cubit_lavie/database/dbstates.dart';
 import '../../shared/components/components.dart';
 
 class CartPage extends StatelessWidget {
   final int cartIndex;
+  final int price;
+  final String name;
+  final String image;
 
-  const CartPage({Key? key, required this.cartIndex}) : super(key: key);
+  const CartPage({Key? key, required this.cartIndex, required this.price, required this.name, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: cartIndex == 0
-            ? null
-            : IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                )),
-        title: const Text(
-          'My Cart',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+        return Scaffold(
+          appBar: AppBar(
+            leading: cartIndex == 0
+                ? null
+                : IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    )),
+            title: const Text(
+              'My Cart',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            centerTitle: cartIndex == 0 ? false : true,
           ),
-        ),
-        centerTitle: cartIndex == 0 ? false : true,
-      ),
-      body: ListView(
-        children: [
-          back(),
-        ],
-      ),
-      bottomNavigationBar: cartIndex == 0 ? null : buildBottomBar(),
-    );
+          body: ConditionalBuilder(
+            condition: cartIndex>1,
+            builder: (context) => ListView.separated(
+                itemBuilder: (context, index) {
+                  return buildCartBody(
+                    totalPrice: cartIndex * 200.0,
+                    cartIndex: cartIndex,
+                    price: price,
+                    image: image,
+                    onDpress: () {},
+                    name: name,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 15,
+                  );
+                },
+                itemCount: cartIndex),
+            fallback: (context) => buildEmptyCartBody(),
+          ),
+
+          bottomNavigationBar: cartIndex == 1 ? null : buildBottomBar(),
+        );
+
   }
 
-  Widget back() {
+/*  Widget back() {
     if (cartIndex == 0) {
       return buildEmptyCartBody();
     } else {
-      return buildCartBody(totalPrice:cartIndex*200.0, cartIndex: cartIndex);
+      return buildCartBody(totalPrice: cartIndex * 200.0, cartIndex: cartIndex);
     }
-  }
+  }*/
 
-  Widget buildBottomBar({double totalPrice= 1000.00 }) {
+  Widget buildBottomBar({double totalPrice=0}) {
     return Container(
       height: 120,
       padding: const EdgeInsets.only(right: 15, left: 8, bottom: 5, top: 5),
@@ -60,15 +84,14 @@ class CartPage extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children:  [
+            children: [
               const Text(
-                '     Total',
+                '      Total',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.green),
-                // maxLines: 2,
-                // overflow: TextOverflow.ellipsis,
+
               ),
               const Spacer(),
               Text(
@@ -77,12 +100,12 @@ class CartPage extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.green),
-                // maxLines: 2,
-                // overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
-          const SizedBox(height: 15,),
+          const SizedBox(
+            height: 15,
+          ),
           SizedBox(
             width: 300,
             height: 45,
@@ -90,8 +113,8 @@ class CartPage extends StatelessWidget {
               animationDuration: const Duration(milliseconds: 200),
               onPressed: () {},
               color: Colors.green,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               child: const Text(
                 'Checkout',
                 style: TextStyle(
@@ -107,3 +130,11 @@ class CartPage extends StatelessWidget {
     );
   }
 }
+
+/*
+   ListView(
+    children: [
+    back(),
+    ],
+    ),
+ */

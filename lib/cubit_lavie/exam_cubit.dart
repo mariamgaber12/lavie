@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/question_model.dart';
-import '../modules/exam/exam_page.dart';
+import '../modules/exam/exam.dart';
 import 'exam_state.dart';
 
 class LaVieExamCubit extends Cubit<LaVieExamStates> {
@@ -24,7 +24,9 @@ class LaVieExamCubit extends Cubit<LaVieExamStates> {
   takeTest() {
     if (testIndex == 0) {
       emit(LaVieExamTakenState());
-      return ExamPage(questions1);
+      return Exam(questions1);
     }
   }
+
+
 }

@@ -3,6 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/cubit_lavie/cubit.dart';
 import 'package:la_vie/cubit_lavie/state.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:la_vie/login/login_page.dart';
+import 'package:la_vie/models/Cart_model.dart';
+import 'package:la_vie/shared/components/constant.dart';
+
+import '../../shared/components/components.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -47,10 +52,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(25),
                                   bottomRight: Radius.circular(5))),
-                          child: Image.asset(
+                          child: Image.network(
                             '${cubit.datauser.data!.user!.imageUrl}',
                             width: double.infinity,
                             height: coverHeight,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         Container(
@@ -71,7 +77,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           CircleAvatar(
                             radius: profileHeight / 2,
                             backgroundColor: Colors.grey.shade100,
-                            backgroundImage: AssetImage(
+                            backgroundImage: NetworkImage(
                                 '${cubit.datauser.data!.user!.imageUrl}'),
                           ),
                           Padding(
@@ -125,7 +131,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                 width: 15,
                               ),
                               const Text(
-                                'You have 30 points',
+                                'You have 0 points',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
@@ -151,9 +157,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                       ],
                     ),
-                    buildProfileCart(title: 'Change Name', onPressed: () {}),
-                    buildProfileCart(title: 'Change Email', onPressed: () {}),
-                  ],
+                    buildProfileCart(title: 'Change Name', onPressed: () {},icon:Icons.arrow_forward),
+                    buildProfileCart(title: 'Change Email', onPressed: () {},icon: Icons.arrow_forward),
+                    buildProfileCart(title: 'Logout',icon: Icons.logout_rounded,onPressed: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) => const LoginPage()));}),
+
+                  ]
                 ),
               ),
             ],
@@ -163,7 +173,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  Widget buildProfileCart({required title, required onPressed}) => Padding(
+  Widget buildProfileCart({required icon,required title, required onPressed}) => Padding(
         padding: const EdgeInsets.all(10.0),
         child: Card(
           borderOnForeground: true,
@@ -181,7 +191,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             trailing: IconButton(
               onPressed: onPressed,
               icon: Icon(
-                Icons.arrow_forward,
+                icon,
                 color: Colors.teal.shade900,
               ),
             ),

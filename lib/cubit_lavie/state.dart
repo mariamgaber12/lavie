@@ -4,7 +4,9 @@ class LaVieInitialState extends LaVieStates {}
 
 class LaVieBottomNavState extends LaVieStates {}
 
-class LoginScreenChangeState extends LaVieStates {}
+class IncrementState extends LaVieStates {}
+
+class DecrementState extends LaVieStates {}
 
 class LaVieGetPlantsLoadingState extends LaVieStates {}
 

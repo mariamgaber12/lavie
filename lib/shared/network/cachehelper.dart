@@ -9,6 +9,7 @@ class CacheHelper
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
+
   static Future<bool> putBoolean({
     required String key,
     required bool value,
@@ -23,4 +24,11 @@ class CacheHelper
   {
     return sharedPreferences!.getBool(key);
   }
+
+  _lockButton() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var _date = DateTime.now();
+    await prefs.setString('lastPressed', _date.toString());
+  }
+
 }

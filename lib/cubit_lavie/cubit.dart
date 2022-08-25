@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/models/about_user.dart';
+import 'package:la_vie/models/get_posts.dart';
+import 'package:la_vie/models/plants_model.dart';
 import 'package:la_vie/models/products_models.dart';
+import 'package:la_vie/models/seed_model.dart';
+import 'package:la_vie/modules/discussions/discussion_forums.dart';
 import 'package:la_vie/modules/home/home_page.dart';
 import 'package:la_vie/modules/notifications/notifactions_page.dart';
-import '../constant.dart';
+import '../models/tool_model.dart';
+import '../shared/components/constant.dart';
 import '../layout/home_layout.dart';
 import '../models/blog_model.dart';
+import '../models/post_model.dart';
 import '../models/user_data.dart';
 import '../modules/blogs/blogs_page.dart';
 import '../modules/scan_code/scan_code_page.dart';
@@ -26,6 +32,7 @@ class LaVieCubit extends Cubit<LaVieStates> {
      ScanCodePage(),
     const HomePage(),
     const NotificationsPage(),
+    const DiscussionForums(),
     const UserProfilePage(),
   ];
 
@@ -45,20 +52,23 @@ class LaVieCubit extends Cubit<LaVieStates> {
     if(index==3) {
       const NotificationsPage();
     }
-    if(index==4) {
+    if(index==4){
+      const DiscussionForums();
+    }
+    if(index==5) {
       const UserProfilePage();
     }
     emit(LaVieBottomNavState());
   }
 
+  void increment(number) => (number+=1);
+  void decrement(number) => (number-=1);
 
-  int increment({required number}) => number++;
-  int decrement({required number}) => number--;
+
 
   UserData datauser = UserData();
 
-  Future<void> signup(String firstName,String lastName,String email, String password,context) async
-  {
+  Future<void> signup(String firstName,String lastName,String email, String password,context) async {
     var data = {"firstName": firstName,"lastName": lastName,"email": email,"password": password};
     await DioHelper.postData(
       url: SIGNUP,
@@ -80,6 +90,8 @@ class LaVieCubit extends Cubit<LaVieStates> {
         // debugPrint(datauser.data!.user!.imageUrl);
         // navigate to new screen
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("${value.statusMessage}")));
         debugPrint("error${value.statusCode}");
       }
     });
@@ -88,7 +100,7 @@ class LaVieCubit extends Cubit<LaVieStates> {
   AboutUser users = AboutUser();
   Future<void> getUserData(String USER, String TOKEN) async {
     await DioHelper.getData(url: USER, token: TOKEN).then((value) {
-      users = User.fromJson(value.data) as AboutUser;
+      users = AboutUser.fromJson(value.data);
     });
   }
 
@@ -115,22 +127,61 @@ class LaVieCubit extends Cubit<LaVieStates> {
         // debugPrint(datauser.data!.user!.imageUrl);
         // navigate to new screen
       }
-      else if(value.statusCode==400){
-        debugPrint('we are in login${value.statusMessage}');
-      }
       else {
+        ScaffoldMessenger.of(context).showSnackBar(
+             SnackBar(content: Text("${value.statusMessage}")));
         debugPrint("error Login !!!!!!!!!!${value.statusCode}");
       }
     });
   }
 
   Products products = Products(data: []);
+  PlantModel plants = PlantModel(data: []);
+  SeedModel seeds = SeedModel(data: []);
+  ToolModel tools = ToolModel(data: []);
   Future<void> getProducts(String PRODUCTS, String TOKEN) async {
     await DioHelper.getData(url: PRODUCTS, token: TOKEN).then((value) {
         products = Products.fromJson(value.data);
+        if(products.type=='plant'){
+          plants = PlantModel.fromJson(value.data);
+        } else if(products.type=='seed'){
+          tools = ToolModel.fromJson(value.data);
+        }else{
+          seeds = SeedModel.fromJson(value.data);
+        }
       debugPrint(products.data![0].name);
     });
   }
+
+
+
+  Post posts = Post();
+  Future<void> postPosts(context,String POSTS, String title,String description,String imageUrl) async {
+    String userId= datauser.data!.user!.userId!;
+    var data = {"title":title,"description":description,"imageUrl":imageUrl,"userId":userId};
+    await DioHelper.postData(url: POSTS,data: data).then((value) {
+      if(value.statusCode==200) {
+        debugPrint(posts.data!.title);
+        debugPrint('post add successfully');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("${value.statusMessage}")));
+        debugPrint("post can't post now ${value.statusMessage}");
+
+      }
+    });
+  }
+
+
+  GetPosts dataPosts = GetPosts();
+  Future<void> getPosts(String POSTS, String TOKEN) async {
+    await DioHelper.getData(url: POSTS, token: TOKEN).then((value) {
+      dataPosts = GetPosts.fromJson(value.data);
+      debugPrint(value.statusCode.toString());
+    });
+  }
+
+
 /*
   Plant plants = Plant();
   Future<void> getPlants(String PLANTS, String TOKEN) async {

@@ -47,7 +47,8 @@ dependencies:
   animated_bottom_navigation_bar: ^1.1.0
   curved_navigation_bar: ^1.0.3
   mobile_scanner: ^2.0.0
-     
+  image_picker: ^0.8.5+3
+  sqflite: ^2.0.3+1
 
 
 dev_dependencies:
@@ -61,7 +62,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
 
-# For information on the generic Dart part of this file, see the
+# For information on th e generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.

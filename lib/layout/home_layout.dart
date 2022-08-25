@@ -49,26 +49,21 @@ class HomeLayout extends StatelessWidget {
                   height:60,
                   items:  [
                     Image.asset('assets/images/leave.png',height: 23,width: 21),
-                   /* Icon(
-                      Icons.energy_savings_leaf_outlined,
-                      color: isChange1==true? Colors.white:Colors.black,
-                    ),*/
+
                     Image.asset('assets/images/qr_scan.png',height: 20,width: 18),
 
                     const Icon(
                       Icons.home_outlined,
                       size: 28,
-                      //color: isChange3==true? Colors.white:Colors.black,
                     ),
                     const Icon(
                       Icons.notifications_none_rounded,
                      size: 27,
-                      // color: isChange4==true? Colors.white:Colors.black,
                     ),
+                    Image.asset('assets/images/forum.png',height: 30,width: 30,),
                     const Icon(
                       Icons.person_outline_outlined,
                       size: 27,
-                      //color: isChange5==true? Colors.white:Colors.black,
                     ),
                   ],
                 )

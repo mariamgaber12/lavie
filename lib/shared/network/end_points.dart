@@ -7,6 +7,7 @@ final SIGNUP = "/api/v1/auth/signup";
 final FACEBOOK = "";
 final GOOGLE = "";
 
+final POSTS="/api/v1/forums";
 final TOOLS = "/api/v1/tools";
 final PLANTS ="/api/v1/plants";
 final SEEDS = "/api/v1/seeds";

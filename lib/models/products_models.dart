@@ -17,7 +17,7 @@ class Products {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['type'] = type;
     data['message'] = message;
     if (this.data != null) {
@@ -59,13 +59,13 @@ class Data {
     type = json['type'];
     price = json['price'];
     available = json['available'];
-    seed = json['seed'] != null ? Seed.fromJson(json['seed']) : null;
+    seed = (json['seed'] != null ? Seed.fromJson(json['seed']) : null) ;
     plant = json['plant'] != null ? Plant.fromJson(json['plant']) : null;
     tool = json['tool'] != null ? Tool.fromJson(json['tool']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['productId'] = productId;
     data['name'] = name;
     data['description'] = description;
@@ -87,10 +87,10 @@ class Data {
 }
 
 class Seed {
-  String? seedId;
-  String? name;
-  String? description;
-  String? imageUrl;
+  String? seedId="";
+  String? name="";
+  String? description="";
+  String? imageUrl="";
 
   Seed({this.seedId, this.name, this.description, this.imageUrl});
 
@@ -102,7 +102,7 @@ class Seed {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['seedId'] = seedId;
     data['name'] = name;
     data['description'] = description;
@@ -112,13 +112,13 @@ class Seed {
 }
 
 class Plant {
-  String? plantId;
-  String? name;
-  String? description;
-  String? imageUrl;
-  int? waterCapacity;
-  int? sunLight;
-  int? temperature;
+  String? plantId="";
+  String? name="";
+  String? description="";
+  String? imageUrl="";
+  int? waterCapacity=0;
+  int? sunLight=0;
+  int? temperature=0;
 
   Plant(
       {this.plantId,
@@ -140,7 +140,7 @@ class Plant {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['plantId'] = plantId;
     data['name'] = name;
     data['description'] = description;
@@ -153,10 +153,10 @@ class Plant {
 }
 
 class Tool {
-  String? toolId;
-  String? name;
-  String? description;
-  String? imageUrl;
+  String? toolId="";
+  String? name="";
+  String? description="";
+  String? imageUrl="";
 
   Tool({this.toolId, this.name, this.description, this.imageUrl});
 
@@ -168,7 +168,7 @@ class Tool {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['toolId'] = toolId;
     data['name'] = name;
     data['description'] = description;
